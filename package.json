@@ -1,9 +1,11 @@
 {
-  "name": "lw6",
+  "name": "lw5",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "gulp dev",
+    "build": "gulp build"
   },
   "keywords": [],
   "author": "Pavel",

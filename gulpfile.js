@@ -7,11 +7,11 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
 var paths = {
-      html:['index.html'],
-      css:['css/styles.css'],
-      js:['js/audioplayer.js']
-    };
-    
+      html:['src/index.html'],
+      css:['src/css/styles.css'],
+      js:['src/js/audioplayer.js']
+};
+ 
 gulp.task('html', function(){
   gulp.src(paths.html)
   .pipe(reload({stream:true}));
@@ -37,27 +37,27 @@ gulp.task('js', function(){
 
 
 gulp.task('minjs', function () {
-  gulp.src('js/audioplayer.js')
+  gulp.src('src/js/audioplayer.js')
   .pipe(minjs())
   .pipe(suffix({suffix: '.min'}))
   .pipe(gulp.dest('build/js/'));
 });
 
 gulp.task('mincss', function() {
-  return gulp.src('css/styles.css')
+  gulp.src('src/css/styles.css')
   .pipe(mincss())
   .pipe(suffix({suffix: '.min'}))
   .pipe(gulp.dest('build/css/'))
 });
 
 gulp.task('minimg', function(){
-  gulp.src('images/*')
+  gulp.src('src/images/*')
   .pipe(minimg())
-  .pipe(gulp.dest('build/img'))
+  .pipe(gulp.dest('build/images'))
 });
 
 gulp.task('transferjquery', function(){
-  gulp.src('js/jquery-1.7.2.min.js')
+  gulp.src('src/js/jquery-1.7.2.min.js')
   .pipe(gulp.dest('build/js'))
 });
 
@@ -68,16 +68,18 @@ gulp.task('watcher',function(){
 });
 
 gulp.task('build', ['minjs', 'mincss', 'transferjquery', 'minimg', 'htmlt']);
-gulp.task('default', ['watcher', 'browserSync']);
+gulp.task('dev', ['watcher', 'browserSync']);
 
 gulp.task('browserSync', function(){
   browserSync({
     server: {
-      baseDir: "./"
+      baseDir: "./build"
     },
     port: 8080,
+	host: 'localhost',
     open: true,
     notify: false
   });
 });
+
 
