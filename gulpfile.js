@@ -9,7 +9,8 @@ var reload = browserSync.reload;
 var paths = {
       html:['src/index.html'],
       css:['src/css/styles.css'],
-      js:['src/js/audioplayer.js']
+      js:['src/js/*'],
+      audio:['src/audio/*']
 };
  
 gulp.task('html', function(){
@@ -23,7 +24,10 @@ gulp.task('htmlt', function() {
 	.pipe(gulp.dest('build'))
 });
 
-
+gulp.task('audio', function () {
+  gulp.src('src/audio/*')
+  .pipe(gulp.dest('build/audio/'));
+});
 
 gulp.task('css', function(){
   gulp.src(paths.css)
@@ -58,6 +62,7 @@ gulp.task('minimg', function(){
 
 gulp.task('transferjquery', function(){
   gulp.src('src/js/jquery-1.7.2.min.js')
+  gulp.src('src/js/jquery-ui-1.8.21.custom.min.js')
   .pipe(gulp.dest('build/js'))
 });
 
@@ -65,9 +70,10 @@ gulp.task('watcher',function(){
   gulp.watch(paths.html, ['html']);
   gulp.watch(paths.js, ['js']);
   gulp.watch(paths.css, ['css']);
+  gulp.watch(paths.audio, ['audio']);
 });
 
-gulp.task('build', ['minjs', 'mincss', 'transferjquery', 'minimg', 'htmlt']);
+gulp.task('build', ['minjs', 'mincss', 'transferjquery', 'minimg', 'htmlt', 'audio']);
 gulp.task('dev', ['watcher', 'browserSync']);
 
 gulp.task('browserSync', function(){
