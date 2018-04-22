@@ -62,6 +62,7 @@ gulp.task('minimg', function(){
 
 gulp.task('transferjquery', function(){
   gulp.src('src/js/jquery-1.7.2.min.js')
+  .pipe(gulp.dest('build/js'))
   gulp.src('src/js/jquery-ui-1.8.21.custom.min.js')
   .pipe(gulp.dest('build/js'))
 });
@@ -74,7 +75,7 @@ gulp.task('watcher',function(){
 });
 
 gulp.task('build', ['minjs', 'mincss', 'transferjquery', 'minimg', 'htmlt', 'audio']);
-gulp.task('dev', ['watcher', 'browserSync']);
+gulp.task('dev', ['build', 'watcher', 'browserSync']);
 
 gulp.task('browserSync', function(){
   browserSync({
