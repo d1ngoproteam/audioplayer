@@ -26,7 +26,9 @@ var path = {
 },
 src: {
   html: 'src/*.html',
-  js: 'src/js/*.js',
+  js: 'src/js/playeraudio.js',
+  jquery: 'src/js/jquery-1.7.2.js',
+  jqcustom: 'src/js/jquery-ui-1.8.21.custom.js',
   style: 'src/css/*.css',
   audio: 'src/audio/*.*',
   images: 'build/images/*.png'
@@ -92,8 +94,20 @@ gulp.task('move:audio', function(){
   .pipe(gulp.dest(path.build.audio))
 });
 
+gulp.task('move:jquery', function(){
+  gulp.src(path.src.jquery)
+  .pipe(gulp.dest(path.build.js))
+});
+
+gulp.task('move:jqcustom', function(){
+  gulp.src(path.src.jqcustom)
+  .pipe(gulp.dest(path.build.js))
+});
+
 gulp.task('build', gulpsync.sync([
   'move:audio',
+  'move:jquery',
+  'move:jqcustom',
   'js:build',
   'style:build',
   'html:build',

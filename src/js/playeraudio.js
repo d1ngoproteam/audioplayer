@@ -1,17 +1,25 @@
-const songsList = [
+const SongsList = [
   { id: 1, songName: 'Kendrick Lamar – Big Shot.mp3', audiourl: 'audio/Kendrick Lamar – Big Shot.mp3', imgurl : 'images/cover3.png '},
   { id: 2, songName: 'XXXTENTACION  – SAD!.mp3', audiourl: 'audio/XXXTENTACION  – SAD!.mp3', imgurl : 'images/cover2.png '},
   { id: 3, songName: 'XXXTENTACION – NUMB.mp3', audiourl: 'audio/XXXTENTACION – NUMB.mp3', imgurl : 'images/cover1.png ' },
   { id: 4, songName: 'Fake.mp3', audiourl: 'audio/1111', imgurl : 'images/cover10.png '}
 ];
 
-class audioplayer{
+class AudioPlayer{
   constructor(){
     this.id = 0;
     this.song;
   }
 
-  playAudio() {
+  playkk(i){
+    this.stopAudio();
+    this.id = i;
+    sessionStorage.setItem('song', this.id);
+    initAudio(this.id);
+    this.PlayList();
+    this.PlayAudio();
+  }
+  PlayAudio() {
     this.song.play();
     this.song.onerror = function(){alert('Аудиозапись не найдена')};
   }
@@ -27,114 +35,106 @@ class audioplayer{
       this.id = sessionStorage.getItem('song');
   }
 
-  next(){
+  Next(){
     this.id = sessionStorage.getItem('song');
-    if (this.id == songsList.length-1)
+    if (this.id == SongsList.length-1)
       this.id = 0;
     else
       this.id++;
     sessionStorage.setItem('song', this.id);
-    this.Playlist();
+    this.PlayList();
   }
 
-  previous(){
+  Previous(){
     this.id = sessionStorage.getItem('song');
     if (this.id == 0)
-      this.id = songsList.length-1;
+      this.id = SongsList.length-1;
     else
       this.id--;
     sessionStorage.setItem('song', this.id);
-    this.Playlist();
+    this.PlayList();
   }
 
-  Playlist(){
-    this.id = sessionStorage.getItem('song');
+  PlayList(){
+    this.getID();
     var ids = this.id;
     ids++;
-    if (this.id == songsList.length-1)
+    if (this.id == SongsList.length-1)
       ids = 0;
     var list = document.getElementById('list');
-    list.innerHTML = "Now play : " + songsList[this.id].songName + "<br>"
-    list.innerHTML += "next song : " + songsList[ids].songName + "<br>"
+    list.innerHTML = "Now play : " + SongsList[this.id].songName + "<br>"
+    list.innerHTML += "next song : " + SongsList[ids].songName + "<br>"
     list.innerHTML += "<br>";
-    list.innerHTML += "Playlist :" + "<br>";
-    for (var i = 0; i < songsList.length; i++)  {
-      list.innerHTML += songsList[i].songName + "<br>"
+    list.innerHTML += "PlayList :" + "<br>";
+    for (var i = 0; i < SongsList.length; i++)  {
+      list.innerHTML += `<li class = ${i} + onclick =  audioplayer.playkk(${i})>` + SongsList[i].songName + "</li>"
     };
   }
 }
 
-var a =  new audioplayer();
+var audioplayer =  new AudioPlayer();
 
 window.onload = function() {
-  a.getID();
-  if (typeof songsList[a.id] !== "undefined" && songsList[a.id] !== null)
-    alert(songsList[a.id].songName);
-  a.Playlist();
+  audioplayer.getID();
+  if (typeof SongsList[audioplayer.id] !== "undefined" && SongsList[audioplayer.id] !== null)
+    alert(SongsList[audioplayer.id].songName);
+  audioplayer.PlayList();
   }
 
-jQuery(document).ready(function() {
   var tracker = $('.tracker');
   var volume = $('.volume');
 
-  function initAudio(elem) {
-
-    var url = elem.attr('audiourl');
-    var title = elem.text();
-    var cover = elem.attr('cover');
-    var artist = elem.attr('artist');
-    a.getID();
-    $('.player .title').text(title);
-    $('.player .artist').text(artist);
-    $('.player .cover').css('background-image','url('+songsList[a.id].imgurl+')');;
-    a.song = new Audio(songsList[a.id].audiourl);
-    a.song.addEventListener('timeupdate',function (){
-    var curtime = parseInt(a.song.currentTime, 10);
+   function initAudio(elem) {
+    audioplayer.getID();
+    $('.player .cover').css('background-image','url('+SongsList[audioplayer.id].imgurl+')');;
+    audioplayer.song = new Audio(SongsList[audioplayer.id].audiourl);
+    audioplayer.song.addEventListener('timeupdate',function (){
+    var curtime = parseInt(audioplayer.song.currentTime, 10);
     tracker.slider('value', curtime);
+    tracker.slider("option", "max", audioplayer.song.duration);
     });
-
-    $('.playlist li').removeClass('active');
-    elem.addClass('active');
   }
 
 
   $('.play').click(function (e) {
     $('.play').addClass('hidden');
     $('.pause').addClass('visible');
-    tracker.slider("option", "max", a.song.duration);
+    tracker.slider("option", "max", audioplayer.song.duration);
     e.preventDefault();
-    a.playAudio();
+    audioplayer.PlayAudio();
   });
 
   $('.pause').click(function (e) {
     e.preventDefault();
-    a.stopAudio();
+    audioplayer.stopAudio();
     $('.play').removeClass('hidden');
     $('.pause').removeClass('visible');
   });
 
   $('.fwd').click(function (e) {
+    audioplayer.Next();
     e.preventDefault();
-    a.stopAudio();
-    tracker.slider("option", "max", a.song.duration);
+    audioplayer.stopAudio();
+    tracker.slider("option", "max", audioplayer.song.duration);
     var next = $('.playlist li.active').next();
     if (next.length == 0) {
       next = $('.playlist li:first-child');
     }
     initAudio(next);
-	  a.playAudio();
+	  audioplayer.PlayAudio();
   });
 
   $('.rew').click(function (e) {
+    audioplayer.Previous();
     e.preventDefault();
-    a.stopAudio();
-    tracker.slider("option", "max", a.song.duration);
+    audioplayer.stopAudio();
+    tracker.slider("option", "max", audioplayer.song.duration);
     var prev = $('.playlist li.active').prev();
     if (prev.length == 0) {
       prev = $('.playlist li:last-child');
     }
     initAudio(prev);
-    a.playAudio();
+    audioplayer.PlayAudio();
   });
 
   $('.pl').click(function (e) {
@@ -143,12 +143,15 @@ jQuery(document).ready(function() {
   });
 
   $('.playlist li').click(function () {
-    a.stopAudio();
+    //alert('');
+    audioplayer.id = SongsList[i].audiourl;
+    alert(audioplayer.id);
+    audioplayer.stopAudio();
     initAudio($(this));
   });
 
   initAudio($('.playlist li:first-child'));
-  a.song.volume = 0.8;
+  audioplayer.song.volume = 0.8;
   volume.slider({
   range: 'min',
   min: 1,
@@ -156,7 +159,7 @@ jQuery(document).ready(function() {
   value: 80,
   start: function(event,ui) {},
   slide: function(event, ui) {
-    a.song.volume = ui.value / 100;
+    audioplayer.song.volume = ui.value / 100;
   },
     stop: function(event,ui) {},
   });
@@ -166,8 +169,8 @@ jQuery(document).ready(function() {
     min: 0, max: 10,
     start: function(event,ui) {},
     slide: function(event, ui) {
-      a.song.currentTime = ui.value;
+      audioplayer.song.currentTime = ui.value;
     },
       stop: function(event,ui) {}
   });
-});
+
