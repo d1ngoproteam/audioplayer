@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <title>Аудиоплеер</title>
-  <link href="css/styles.min.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-  <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
-  <script type="text/javascript" src="js/audioplayer.min.js"></script>
+    <!-- inject:css -->
+      <!-- endinject -->
+      <!-- inject:js -->
+     <!-- endinject -->
 </head>
 <body>
   <header>
@@ -20,16 +20,15 @@
           <div class="controls">
             <div class="play"></div>
             <div class="pause"></div>
-            <div class="rew" onclick = 'return post()'></div>
-            <div class="fwd" onclick = 'return next()' ></div>
+            <div class="rew" onclick = 'return a.previous()'></div>
+            <div class="fwd" onclick = 'return a.next()' ></div>
           </div>
           <div class="volume"></div>
           <div class="tracker"></div>
         </div>
       </div>
       <ul class="playlistt">
-        <li><div id = 'list' ></div></li>
-        <li><div class="playforlist"></div></li>
+        <div id = 'list' ></div>
       </ul>
     </div>
   </header>
