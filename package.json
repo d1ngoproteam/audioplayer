@@ -1,5 +1,5 @@
 {
-  "name": "Tracker",
+  "name": "lw5",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/slanderc/Tracker.git"
+    "url": "git+https://github.com/d1ngoproteam/audioplayer.git"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -38,9 +38,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/slanderc/Tracker/issues"
+    "url": "https://github.com/d1ngoproteam/webdev-learn/issues"
   },
-  "homepage": "https://github.com/slanderc/Tracker#readme",
+  "homepage": "https://github.com/d1ngoproteam/audioplayer#readme",
   "dependencies": {
     "babel-register": "^6.26.0"
   }
