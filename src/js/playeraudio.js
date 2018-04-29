@@ -11,7 +11,9 @@ class AudioPlayer{
     this.song;
   }
 
-  playkk(i){
+  PlayListClick(i){
+    $('.play').addClass('hidden');
+    $('.pause').addClass('visible');
     this.stopAudio();
     this.id = i;
     sessionStorage.setItem('song', this.id);
@@ -63,11 +65,11 @@ class AudioPlayer{
       ids = 0;
     var list = document.getElementById('list');
     list.innerHTML = "Now play : " + SongsList[this.id].songName + "<br>"
-    list.innerHTML += "next song : " + SongsList[ids].songName + "<br>"
+    list.innerHTML += "Next song : " + SongsList[ids].songName + "<br>"
     list.innerHTML += "<br>";
     list.innerHTML += "PlayList :" + "<br>";
     for (var i = 0; i < SongsList.length; i++)  {
-      list.innerHTML += `<li class = ${i} + onclick =  audioplayer.playkk(${i})>` + SongsList[i].songName + "</li>"
+      list.innerHTML += `<li class = ${i} + onclick =  audioplayer.PlayListClick(${i})>` + SongsList[i].songName + "</li>"
     };
   }
 }
@@ -76,8 +78,6 @@ var audioplayer =  new AudioPlayer();
 
 window.onload = function() {
   audioplayer.getID();
-  if (typeof SongsList[audioplayer.id] !== "undefined" && SongsList[audioplayer.id] !== null)
-    alert(SongsList[audioplayer.id].songName);
   audioplayer.PlayList();
   }
 
@@ -143,9 +143,7 @@ window.onload = function() {
   });
 
   $('.playlist li').click(function () {
-    //alert('');
     audioplayer.id = SongsList[i].audiourl;
-    alert(audioplayer.id);
     audioplayer.stopAudio();
     initAudio($(this));
   });
