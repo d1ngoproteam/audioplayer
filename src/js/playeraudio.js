@@ -157,7 +157,7 @@ window.onload = function() {
     value: 80,
     start: function(event,ui) {},
     slide: function(event, ui) {
-    audioplayer.song.volume = ui.value / 100;
+      audioplayer.song.volume = ui.value / 100;
     },
     stop: function(event,ui) {},
   });
